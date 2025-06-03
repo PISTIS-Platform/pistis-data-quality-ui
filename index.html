@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Quality Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for accordion arrows */
+        .accordion-button::after {
+            content: '\25BC'; /* Down arrow */
+            float: right;
+            transform: rotate(0deg);
+            transition: transform 0.2s ease-in-out;
+        }
+        .accordion-button.open::after {
+            transform: rotate(180deg); /* Up arrow */
+        }
+        /* Style for metadata value highlights in cards */
+        .metadata-value {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 0.125rem 0.5rem; /* py-0.5 px-2 */
+            border-radius: 0.25rem; /* rounded */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 60px; /* Ensure some minimum width for alignment */
+            text-align: center;
+        }
+        .metadata-value-yellow { /* Specific for yellow card where text is dark */
+            background-color: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            color: #374151; /* text-gray-700 */
+        }
+        /* Style for metadata value highlights within accordion content */
+        .distribution-metadata-value {
+            background-color: #e9d5ff; /* Light purple background (Tailwind purple-200) */
+            color: #5b21b6; /* Darker purple text (Tailwind purple-700) */
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            border: 1px solid #c084fc; /* Tailwind purple-400 */
+            min-width: 50px;
+            text-align: center;
+            font-weight: 500; /* medium */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <!-- Header -->
+    <header class="bg-purple-700 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">PISTIS</h1>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="hover:text-purple-300">Home</a></li>
+                    <li><a href="#" class="hover:text-purple-300">Data ingestion</a></li>
+                    <li><a href="#" class="hover:text-purple-300">My Data</a></li>
+                    <li><a href="#" class="hover:text-purple-300">Marketplace</a></li>
+                    <li><a href="#" class="hover:text-purple-300">Market insights</a></li>
+                </ul>
+            </nav>
+            <div class="text-sm">
+                 Logged in as: User
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto p-6">
+        <!-- Title Section -->
+        <div class="mb-8">
+            <div class="flex items-center mb-3">
+                <span class="bg-purple-600 text-white text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">DATASET</span>
+                <h2 class="text-3xl font-semibold text-gray-700">Fontaines à boire</h2>
+            </div>
+            <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600">
+                <div>
+                    <span class="font-medium text-gray-700">Catalogue:</span> My data
+                </div>
+                <div>
+                    <span class="font-medium text-gray-700">Publisher:</span> Toulouse métropole
+                </div>
+                <div>
+                    <span class="font-medium text-gray-700">Updated:</span> 30 May 2025
+                </div>
+            </div>
+        </div>
+
+        <!-- Metadata Quality Section -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-2">Metadata quality</h3>
+            <p class="text-gray-600 mb-6">
+                The Metadata Quality Assurance is intended to help data providers and data portals to check their metadata against various indicators. For
+                information on which metrics we use for indicator measurements, please have a look at our <a href="#" class="text-purple-600 hover:underline">methodology page</a>.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Accessibility Card -->
+                <div class="bg-blue-500 text-white p-6 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-semibold mb-4">Accessibility</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center"><span>Download URL</span> <span class="metadata-value font-bold">100 %</span></li>
+                        <li class="flex justify-between items-center"><span>Most frequent accessing status codes</span> <span class="metadata-value font-bold">N/A</span></li>
+                        <li class="flex justify-between items-center"><span>Most frequent distribution status codes</span> <span class="metadata-value font-bold">N/A</span></li>
+                    </ul>
+                </div>
+
+                <!-- Findability Card -->
+                <div class="bg-green-500 text-white p-6 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-semibold mb-4">Findability</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center"><span>Keyword usage</span> <span class="metadata-value font-bold">yes</span></li>
+                        <li class="flex justify-between items-center"><span>Categories</span> <span class="metadata-value font-bold">yes</span></li>
+                        <li class="flex justify-between items-center"><span>Geo search</span> <span class="metadata-value font-bold">yes</span></li>
+                        <li class="flex justify-between items-center"><span>Time based search</span> <span class="metadata-value font-bold">no</span></li>
+                    </ul>
+                </div>
+
+                <!-- Reusability Card -->
+                <div class="bg-red-500 text-white p-6 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-semibold mb-4">Reusability</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center"><span>Access restrictions</span> <span class="metadata-value font-bold">no</span></li>
+                        <li class="flex justify-between items-center"><span>License information</span> <span class="metadata-value font-bold">100 %</span></li>
+                        <li class="flex justify-between items-center"><span>Access restrictions vocabulary</span> <span class="metadata-value font-bold">yes</span></li>
+                        <li class="flex justify-between items-center"><span>Contact point</span> <span class="metadata-value font-bold">yes</span></li>
+                        <li class="flex justify-between items-center"><span>Publisher</span> <span class="metadata-value font-bold">yes</span></li>
+                    </ul>
+                </div>
+
+                <!-- Interoperability Card -->
+                <div class="bg-indigo-500 text-white p-6 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-semibold mb-4">Interoperability</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center"><span>DCAT-AP compliance</span> <span class="metadata-value font-bold">N/A</span></li>
+                        <li class="flex justify-between items-center"><span>Format</span> <span class="metadata-value font-bold">100 %</span></li>
+                        <li class="flex justify-between items-center"><span>Media type</span> <span class="metadata-value font-bold">100 %</span></li>
+                        <li class="flex justify-between items-center"><span>Format / Media type from Vocabulary</span> <span class="metadata-value font-bold">0 %</span></li>
+                    </ul>
+                </div>
+
+                <!-- Contextuality Card -->
+                <div class="bg-yellow-500 text-gray-800 p-6 rounded-lg shadow-lg">
+                    <h4 class="text-xl font-semibold mb-4">Contextuality</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex justify-between items-center"><span>File size</span> <span class="metadata-value metadata-value-yellow font-bold">0 %</span></li>
+                        <li class="flex justify-between items-center"><span>Rights Vocabulary</span> <span class="metadata-value metadata-value-yellow font-bold">100 %</span></li>
+                        <li class="flex justify-between items-center"><span>Spatial data of issue</span> <span class="metadata-value metadata-value-yellow font-bold">yes</span></li>
+                        <li class="flex justify-between items-center"><span>Distribution Modification date</span> <span class="metadata-value metadata-value-yellow font-bold">100 %</span></li>
+                        <li class="flex justify-between items-center"><span>Temporal data of issue</span> <span class="metadata-value metadata-value-yellow font-bold">100 %</span></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Distribution Quality Section -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-2">Distribution Quality / Data Quality</h3>
+            <p class="text-gray-600 mb-6">
+                The following lists the quality measurement of all distributions of the dataset. For information on which metrics we use for indicator measurements,
+                please have a look at our <a href="#" class="text-purple-600 hover:underline">methodology page</a>.
+            </p>
+
+            <div class="space-y-4">
+                <!-- Accordion Item 1 - Updated Content -->
+                <div class="bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full text-left p-4 font-medium text-gray-700 hover:bg-gray-50 rounded-t-lg focus:outline-none flex justify-between items-center" onclick="toggleAccordion(this)">
+                        <span>Pomiary parametrów bazowych izolatora</span>
+                        <span class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">CSV</span>
+                    </button>
+                    <div class="accordion-content hidden p-4 border-t border-gray-200 text-sm text-gray-600">
+                        <div class="space-y-5">
+                            <!-- Accessibility Details -->
+                            <div>
+                                <h5 class="text-md font-semibold text-gray-700 mb-2">Accessibility</h5>
+                                <ul class="space-y-2 pl-2">
+                                    <li class="flex justify-between items-center"><span>Download URL</span> <span class="distribution-metadata-value">yes</span></li>
+                                    <li class="flex justify-between items-center"><span>Most frequent accessURL status code</span> <span class="distribution-metadata-value">200</span></li>
+                                    <li class="flex justify-between items-center"><span>Most frequent downloadURL status code</span> <span class="distribution-metadata-value">200</span></li>
+                                </ul>
+                            </div>
+                            <!-- Reusability Details -->
+                            <div>
+                                <h5 class="text-md font-semibold text-gray-700 mb-2">Reusability</h5>
+                                <ul class="space-y-2 pl-2">
+                                    <li class="flex justify-between items-center"><span>License information</span> <span class="distribution-metadata-value">no</span></li>
+                                    <!-- Add more mock reusability metrics if needed -->
+                                </ul>
+                            </div>
+                            <!-- Contextuality Details -->
+                            <div>
+                                <h5 class="text-md font-semibold text-gray-700 mb-2">Contextuality</h5>
+                                <ul class="space-y-2 pl-2">
+                                    <li class="flex justify-between items-center"><span>File size</span> <span class="distribution-metadata-value">yes</span></li>
+                                    <li class="flex justify-between items-center"><span>Rights</span> <span class="distribution-metadata-value">no</span></li>
+                                    <li class="flex justify-between items-center"><span>Modification date</span> <span class="distribution-metadata-value">yes</span></li>
+                                    <li class="flex justify-between items-center"><span>Date of issue</span> <span class="distribution-metadata-value">yes</span></li>
+                                </ul>
+                            </div>
+                            <!-- Interoperability Details -->
+                            <div>
+                                <h5 class="text-md font-semibold text-gray-700 mb-2">Interoperability</h5>
+                                <ul class="space-y-2 pl-2">
+                                    <li class="flex justify-between items-center"><span>Format</span> <span class="distribution-metadata-value">yes</span></li>
+                                    <li class="flex justify-between items-center"><span>Media type</span> <span class="distribution-metadata-value">yes</span></li>
+                                    <li class="flex justify-between items-center"><span>Format/Media type from vocabulary</span> <span class="distribution-metadata-value">yes</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Accordion Item 2 -->
+                <div class="bg-white rounded-lg shadow">
+                     <button class="accordion-button w-full text-left p-4 font-medium text-gray-700 hover:bg-gray-50 rounded-t-lg focus:outline-none flex justify-between items-center" onclick="toggleAccordion(this)">
+                        <span>Distribution Name / Link 2 (e.g., API endpoint)</span>
+                        <span class="text-xs bg-gray-200 text-gray-700 px-2 py-0.5 rounded-full">JSON</span>
+                    </button>
+                    <div class="accordion-content hidden p-4 border-t border-gray-200 text-sm text-gray-600">
+                        Details specific to this JSON API distribution. Could include schema validation results, rate limits, authentication info etc.
+                        <br><br>This section can also be populated with detailed quality metrics like the CSV example above if desired.
+                    </div>
+                </div>
+                 <!-- Accordion Item 3 -->
+                <div class="bg-white rounded-lg shadow">
+                    <button class="accordion-button w-full text-left p-4 font-medium text-gray-700 hover:bg-gray-50 rounded-t-lg focus:outline-none flex justify-between items-center" onclick="toggleAccordion(this)">
+                        <span>License: Etalab Open License 2.0</span>
+                        <!-- No format tag here, as it's about the license -->
+                    </button>
+                    <div class="accordion-content hidden p-4 border-t border-gray-200 text-sm text-gray-600">
+                        Information about the Etalab Open License and its implications for reusability.
+                        Key aspects:
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>Free to reuse, including for commercial purposes.</li>
+                            <li>Requires attribution to the source.</li>
+                            <li>Data should be shared under similar conditions if modified.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+         <!-- New Section with Mockdata (remains the same) -->
+        <section class="mb-10">
+            <h3 class="text-2xl font-semibold text-gray-700 mb-2">Distribution Quality</h3>
+             <p class="text-gray-600 mb-6">
+                The following lists the quality measurement of all distributions of the dataset. For information on which metrics we use for indicator measurements,
+                please have a look at our <a href="#" class="text-purple-600 hover:underline">methodology page</a>.
+            </p>
+            <div class="bg-white rounded-lg shadow p-4">
+                <h4 class="font-semibold text-lg text-purple-700 mb-3">The new section with the mockdata</h4>
+                <div class="space-y-4">
+                    <div class="bg-gray-50 rounded-lg shadow-inner">
+                        <button class="accordion-button w-full text-left p-3 font-medium text-gray-600 hover:bg-gray-100 rounded-t-lg focus:outline-none" onclick="toggleAccordion(this)">
+                            Another mock distribution
+                        </button>
+                        <div class="accordion-content hidden p-3 border-t border-gray-200 text-sm text-gray-500">
+                            This is more mock data for another distribution item. It could contain various quality scores and checks.
+                        </div>
+                    </div>
+                     <div class="bg-gray-50 rounded-lg shadow-inner">
+                        <button class="accordion-button w-full text-left p-3 font-medium text-gray-600 hover:bg-gray-100 rounded-t-lg focus:outline-none" onclick="toggleAccordion(this)">
+                            Format: text/csv
+                        </button>
+                        <div class="accordion-content hidden p-3 border-t border-gray-200 text-sm text-gray-500">
+                           CSV specific quality checks. For example, header consistency, delimiter usage, encoding.
+                        </div>
+                    </div>
+                     <div class="bg-gray-50 rounded-lg shadow-inner">
+                        <button class="accordion-button w-full text-left p-3 font-medium text-gray-600 hover:bg-gray-100 rounded-t-lg focus:outline-none" onclick="toggleAccordion(this)">
+                            Source: Primary Data Collector
+                        </button>
+                        <div class="accordion-content hidden p-3 border-t border-gray-200 text-sm text-gray-500">
+                            Information about the source and its reliability.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8 text-sm">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 PISTIS Data Platform. All rights reserved.</p>
+            <p class="mt-1">
+                This page displays mock data quality indicators based on the provided image.
+                The project PISTIS has received funding from the European Union’s Horizon Europe programme under G.A. No. 101070280.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript for Accordion Toggle
+        function toggleAccordion(buttonElement) {
+            const content = buttonElement.nextElementSibling;
+            // Ensure the button itself has the 'open' class toggled for arrow styling
+            buttonElement.classList.toggle('open');
+            // Toggle visibility of the content
+            content.classList.toggle('hidden');
+        }
+    </script>
+
+</body>
+</html>
